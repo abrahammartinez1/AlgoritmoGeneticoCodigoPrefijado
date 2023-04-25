@@ -1,13 +1,51 @@
 import java.util.Arrays;
 import java.util.Random;
 
-public class AlgoritmoGenetico {
 
+//FUNCION DE EVALUACION DEL INDIVIDUO = CONTAR CUANTOS NUMEROS COINCIDEN CON EL BUSCADO
+//SE USA PARA DESPUES DETERMINAR EL FITNESS DE CADA INDIVIDUO
+// VALOR DE CADA INDIVIDUO
+
+//FITNESS = NUMERO DE CIFRAS QUE DIFIEREN DEL OBJETIVO
+//SERVIRÁ PARA DETERMINAR QUÉ INDIVIDUOS SE SELECCIONAN PARA LA REPRODUCCION
+//SELECCION DE INDIVIDUOS
+
+//CROMOSOMA = VECTOR DE ENTEROS,  DE LONGITUD FIJA
+
+//LOS GENES DENTRO DEL CROMOSOMA IRAN DEL 1 AL 100
+
+
+//PASOS
+
+//ARRAY DE TAMAÑO ELEMENTOS POBLACION
+
+//metodo primeraGeneracion() cromosomas con numeros aleatorios
+
+//metodo evaluarCromosoma()  se da el fitness a cada cromosoma
+
+//metodo ordenarPoblacion() en funcion del fitness
+
+//metodo siguienteGeneracion() se toma un 10% de la elite, con mejor fitness
+
+//metodo cruzar() se cruza cada individuo de la elite con un individuo aleatorio
+//de la poblacion NO ELITE, forma de cruce al gusto, de 2 individuos obtenemos 1
+
+//metodo mutacion() a cada individuo lo mutamos
+
+//ordenarPoblacion() de nuevo en funcion de su fitness
+
+//extincionSelectiva() seleccionamos los n mejores y eliminamos el resto, la poblacion debe mantenerse
+
+// iteramos hasta encontrar la solucion o el numero maximo de iteraciones
+
+
+public class AlgoritmoGenetico {
 
     private static final int LONGITUD_CROMOSOMA = 10;
     private static final int ELEMENTOS_POBLACION = 100;
     private static final int MAX_ITERACIONES = 1000;
 
+    //CODIGO QUE DEBEMOS ENCONTRAR CON EL ALGORITMO GENETICO
     private static final int[] CODIGO_OBJETIVO = {1, 5, 7, 9, 12, 20, 30, 50, 75, 100};
 
     private static Random rnd = new Random();
