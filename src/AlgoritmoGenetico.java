@@ -27,6 +27,7 @@ import java.util.Random;
 
 //metodo cruzar() se cruza cada individuo de la elite con un individuo aleatorio
 //de la poblacion NO ELITE, forma de cruce al gusto, de 2 individuos obtenemos 1
+//obtendremos una nueva poblacion de 100 cromosomas, los 10 de la elite y los otros 90 mezclados
 
 //metodo mutacion() a cada individuo lo mutamos
 
@@ -40,11 +41,11 @@ import java.util.Random;
 public class AlgoritmoGenetico {
 
     private static final int LONGITUD_CROMOSOMA = 10;
-    private static final int ELEMENTOS_POBLACION = 100;
-    private static final int MAX_ITERACIONES = 1000;
+    private static final int ELEMENTOS_POBLACION = 3;
+    private static final int MAX_ITERACIONES = 10;
 
     //CODIGO QUE DEBEMOS ENCONTRAR CON EL ALGORITMO GENETICO
-    private static final int[] CODIGO_OBJETIVO = {1, 5, 7, 9, 12, 20, 30, 50, 75, 100};
+    private static final int[] CODIGO_OBJETIVO = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private static Random rnd = new Random();
 
@@ -66,6 +67,7 @@ public class AlgoritmoGenetico {
             return fitness;
         }
 
+        //NOS DICE CUANTOS GENES DIFIEREN DEL OBJETIVO
         public void calcularFitness() {
             int contador = 0;
             for (int i = 0; i < genes.length; i++) {
@@ -76,6 +78,7 @@ public class AlgoritmoGenetico {
             fitness = contador;
         }
 
+        /*
         public void cruzar(Cromosoma otro) {
             int puntoCorte = rnd.nextInt(LONGITUD_CROMOSOMA - 1) + 1;
             for (int i = puntoCorte; i < genes.length; i++) {
@@ -83,6 +86,27 @@ public class AlgoritmoGenetico {
                 genes[i] = otro.genes[i];
                 otro.genes[i] = aux;
             }
+        }
+*/
+        public void cruzar(Cromosoma otro) {
+            int puntoCorte = rnd.nextInt(LONGITUD_CROMOSOMA - 1) + 1;
+            for (int i = puntoCorte; i < genes.length; i++) {
+                int aux = genes[i];
+                genes[i] = otro.genes[i];
+                otro.genes[i] = aux;
+            }
+
+            /*
+            int contador = 0;
+            for (int i = 0; i < genes.length; i++) {
+                if (genes[i] != CODIGO_OBJETIVO[i]) {
+                    contador++;
+                }
+            }
+            fitness = contador;
+            */
+
+
         }
 
         public void mutar() {
@@ -113,25 +137,74 @@ public class AlgoritmoGenetico {
                 cromosoma.calcularFitness();
             }
 
-            // Ordenar población por fitness
+            // ORDENACION
+            // Ordenar población por MEJOR fitness
             Arrays.sort(poblacion);
 
-            // Mostrar el mejor cromosoma de la generación actual
-            System.out.println("Mejor cromosoma de la generación " + iteracionActual + ": " + Arrays.toString(poblacion[0].genes));
+            //CRUCE
+            // CREAMOS LA SIGUIENTE GENERACION DE CROMOSOMAS CON EL 10% DE LA ELITE Y EL 90% MEZCLADOS ELITE/NO ELITE
+            //CRUZAREMOS ALEATORIAMENTE CADA CROMOSOMA NO ELITE CON UNO DE LA ELITE
 
-            // Comprobar si se ha alcanzado el objetivo
-            if (poblacion[0].fitness == 0) {
-                System.out.println("¡Objetivo alcanzado en la generación " + iteracionActual + "!");
-                break;
+            //CREAMOS UNA POBLACION PARALELA PARA EL CRUCE CON LA ANTERIOR
+            Cromosoma[] poblacion2 = new Cromosoma[ELEMENTOS_POBLACION];
+            //poblacion2 = poblacion.clone();
+            for (int i = 0; i < ELEMENTOS_POBLACION; i++) {
+                Cromosoma cromosoma2 = new Cromosoma();
+                poblacion2[i] = cromosoma2;
+                for (int j = 0; j < LONGITUD_CROMOSOMA; j++) {
+                    poblacion2[i].genes[j] = poblacion[i].genes[j] ;
+                }
+            }
+            //YA TENEMOS 2 POBLACIONES
+            /*----------------------------------------------
+            AQUI ME HE QUEDADO, A CONTINUIAR
+             */
+
+
+            // Arrays.sort(poblacion2);
+
+            System.out.println("CRUCE " + iteracionActual );
+
+            for (int i = 0; i < ELEMENTOS_POBLACION; i++) {
+                for (int j = ELEMENTOS_POBLACION - 1; j >= 0; j--) {
+                    //Cromosoma cromosoma2 = new Cromosoma();
+                    //cromosoma2.cruzar(cromosoma2);
+                    poblacion2[i].cruzar(poblacion[j]);
+                }
             }
 
-            // Crear nueva generación
+            //----------------------------------------
 
-            //Cromosoma[] nuevaGeneracion = new Cromosoma[ELEMENTOS_POBLACION
+            //MOSTRAMOS TODOS LOS ELEMENTOS DE LA POBLACION1 Y 2
+            for (int i = 0; i < ELEMENTOS_POBLACION; i++) {
 
+                System.out.println(Arrays.toString(poblacion[i].genes));
+            }
+            for (int i = 0; i < ELEMENTOS_POBLACION; i++) {
 
-
+                System.out.println(Arrays.toString(poblacion2[i].genes));
+            }
+            iteracionActual = iteracionActual + 1;
+        }
+    }
 }
+/*
+                // Mostrar el mejor cromosoma de la generación actual
+                System.out.println("Mejor cromosoma de la generación " + iteracionActual + ": " + Arrays.toString(poblacion[0].genes));
+
+                // Comprobar si se ha alcanzado el objetivo
+                if (poblacion[0].fitness == 0) {
+                    System.out.println("¡Objetivo alcanzado en la generación " + iteracionActual + "!");
+                    break;
+                }
+
+                // Crear nueva generación
+                //Cromosoma[] nuevaGeneracion = new Cromosoma[ELEMENTOS_POBLACION];
+                iteracionActual = iteracionActual + 1;
+
+            }
+        }
+
     }
 
-}
+*/
